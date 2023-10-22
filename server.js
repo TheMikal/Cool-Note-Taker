@@ -3,12 +3,12 @@ const path = require("path");
 const express = require("express");
 const fs = require("fs");
 
-// Helper method for generating unique ids
+// generates ids
 const UUID = require("uniqid");
 
 const PORT = process.env.PORT || 3001;
 
-// Creates new app with express
+// starts express
 const app = express();
 
 // Middleware
