@@ -36,15 +36,15 @@ app.get("/api/notes", function (req, res) {
     });
 });
 
-// Reads the newly added notes from the request body and then adds them to the db.json file
+// read then append the newly added note to the json file
 const rtaj = (content, file) => {
     fs.readFile(file, "utf8", (err, data) => {
         if (err) {
         console.error(err);
         } else {
-        const parsedData = JSON.parse(data);
+        const noteData = JSON.parse(data);
         parsedData.push(content);
-        newJsonNote(file, parsedData);
+        newJsonNote(file, noteData);
         }
     });
 };
@@ -52,7 +52,7 @@ const rtaj = (content, file) => {
 // puts data in the json
 const newJsonNote = (destination, content) =>
     fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-        err ? console.error(err) : console.info(`\nData written to ${destination}`)
+        err ? console.error(err) : console.info(`note written to ${destination}`)
     );
 
 // adds the note to the db.json file, and then returns the new note to the client
@@ -74,7 +74,7 @@ app.post("/api/notes", (req, res) => {
 
         res.json(response);
     } else {
-        res.json("Error in posting new note");
+        res.json("Couldn't post note");
     }
 });
 
@@ -91,7 +91,7 @@ app.delete("/api/notes/:id", (req, res) => {
         newJsonNote("db/db.json", filterData);
         }
     });
-    res.send(`Deleted note with ${req.params.id}`);
+    res.send(`Destroyed note id: ${req.params.id}`);
 });
 
 app.listen(PORT, () =>
